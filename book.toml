@@ -1,0 +1,5 @@
+[book]
+authors = ["Luke W. Johnston"]
+language = "en"
+src = "src"
+title = "Track your time with watrs"
