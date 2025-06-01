@@ -1,4 +1,5 @@
-name: Deploy
+name: Book
+
 on:
   push:
     branches:
