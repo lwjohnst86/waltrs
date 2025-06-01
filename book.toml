@@ -3,3 +3,8 @@ authors = ["Luke W. Johnston"]
 language = "en"
 src = "src"
 title = "Track your time with watrs"
+
+[output.html]
+smart-punctuation = true
+git-repository-url = "https://github.com/lwjohnst86/watrs"
+edit-url-template = "https://github.com/lwjohnst86/watrs/edit/main/{path}"
