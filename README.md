@@ -15,6 +15,11 @@ not actively maintained, it doesn't make sense to contribute to it. Want
 to learn more about how I've made this different from Watson? See the
 [design document](src/design.md).
 
+As a warning, since this is a way for me to learn Rust, this package is
+very experimental, may change a lot at any time, and is designed around
+my needs and use cases. So, if you want to try it out, just be aware of
+the situation! :)
+
 ## Installing
 
 For now, the only way to install it is a development version on GitHub
