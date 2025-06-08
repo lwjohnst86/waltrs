@@ -27,15 +27,25 @@ follow a few principles to guide the design of it:
 
 ## Interface
 
--   `start <project> [<tags>]`: Starts the timer for a given project
-    with optional tags.
+-   `start [<project>] [<tags>]`: Starts the timer for a given project
+    with optional tags. Creates a new entry in the timesheet file with
+    an empty `stop` field. If a timer is already running for a different
+    project, it will stop the timer on the other project and start a new
+    one for the given project. If no project is given, it defaults to
+    starting the last project (along with the same tags used).
+
+    It will not add a new entry if the timesheet file can't be
+    parsed/read, if there are duplicate `id` values, or if there are
+    `start` entries later than the `stop` entries.
 
 -   `stop`: Stops the current timer. Adds a timestamp to the `stop`
-    field in the timesheet file with an It will only stop and add the
-    timestamp if there is a timer running (the most recent `start`
-    timestamp without a `stop` timestamp), if the timesheet file is a
-    parse-able JSON file, and if there is only one entry with a missing
-    value in the `stop` field.
+    value in the timesheet file with an entry that has an empty `stop`
+    value. It will only stop and add the timestamp if there is a timer
+    running (the most recent `start` timestamp without a `stop`
+    timestamp). Can't stop if the current `start` entry is in the future
+    (e.g. if the person incorrectly edited the file).
+
+    It has the same constraints as `start` for when it won't work.
 
 -   `edit`: Opens the timesheet file in the user's editor (e.g. `vim`)
     for them to edit themselves. Use this to fix a mistake in an entry,
@@ -44,6 +54,9 @@ follow a few principles to guide the design of it:
     editor, going to the necessary entry can be done by searching for
     the timestamp, project or tag, or going to the end of the file for
     the most recent entry.
+
+    If you edit the file, it will only save if it passes the same
+    constraints as the `start` command.
 
 -   `stats [<subcommand>] [<options>]`: This command contains several
     subcommands that provide basic statistics for various aspects of the
