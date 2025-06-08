@@ -1,5 +1,5 @@
 
-build: format lint test build-book build-package
+build: format lint test build-docs build-package
 
 serve-book: 
   # Install via `cargo install mdbook`
@@ -7,6 +7,7 @@ serve-book:
 
 lint:
   cargo clippy
+  cargo check
   # Install via `cargo install typos`
   typos
 
@@ -19,8 +20,9 @@ test:
   cargo test
   mdbook test
 
-build-book:
+build-docs:
   mdbook build
+  cargo doc
 
 build-package:
   cargo build
