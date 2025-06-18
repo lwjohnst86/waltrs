@@ -1,18 +1,6 @@
-use chrono::{DateTime, Utc};
 use clap::{Parser, Subcommand};
-use std::time::SystemTime;
-use polars::prelude::*;
-use uuid::Uuid;
-use dirs::home_dir;
-
-fn clock_path() -> std::path::PathBuf {
-    // This function returns the path to the clock file.
-    // It uses the home directory and appends "Desktop/clock.json".
-    // You can change this to any other path as needed.
-    // For example, you might want to store it in a different directory.
-  
-    home_dir().unwrap().join("Desktop/clock.json")
-}
+mod start;
+mod common;
 
 /// A Rust-based implementation of the Watson CLI.
 ///
@@ -28,11 +16,17 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Starts a new clock entry
+    /// Starts a new entry for a project and optionally with tags.
     Start {
-      /// The project you are starting the clock for.
-      project: String,
-    }
+        /// The project you are starting the clock for.
+        project: String,
+        // tags: array of strings?
+    },
+    // /// Stops the current 
+    // Stop,
+    // /// Opens the timesheet file so you can edit it.
+    // Edit,
+
 }
 
 fn main() {
@@ -42,37 +36,12 @@ fn main() {
     // matches just as you would the top level cmd
     match &cli.command {
         Commands::Start { project } => {
-            let start_entry = start(project.to_string());
-            println!("{}", start_entry);
+            // - if no project, run stop on current project, but if no current project, return error (which will be handled by stop)
+
+            // - if no project, use previous project/tags
+            //let start_entry = start(project.to_string());
+            //println!("{}", start_entry);
+            start::start(project);
         }
     }
 }
-
-fn start(project: String) -> DataFrame {
-    let start_time = timestamp();
-    let id = Uuid::new_v4();
-    let mut df = df!(
-        "start" => [start_time],
-        "end" => [String::new()],
-        "project" => [project],
-        "id" => [id.to_string()]
-    ).unwrap();
-
-    let mut output_file = std::fs::File::create(clock_path()).expect("Unable to create clock file");
-
-    JsonWriter::new(&mut output_file)
-        .with_json_format(JsonFormat::JsonLines)
-        .finish(&mut df)
-        .expect("Unable to write DataFrame to file");
-
-      df
-}
-
-fn timestamp() -> String {
-    let now = SystemTime::now();
-    let now: DateTime<Utc> = now.into();
-    let now = now.to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
-
-    now
-}
-
