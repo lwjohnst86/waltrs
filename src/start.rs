@@ -1,29 +1,51 @@
 use polars::prelude::*;
 use uuid::Uuid;
-
-// - check if an entry is currently running and stop if there is
-// - create new entry with `start` timestamp
-// - ... with project
-// - ... with project and tags
-// - check if timesheet file exists
-// - check if timesheet file can be read/parsed
-// - check if id is unique
-// - check if any `start` entries are later than `stop` entries
-// - write to timesheet file
-
-//fn start(project: String, tags: [str]) -> DataFrame {
-//}
-
+use crate::common;
 
 //fn start(project: &String, tags: [&String]) -> DataFrame {
-fn start(project: &String) -> DataFrame {
-    let id = Uuid::new_v4();
+/// Starts a new entry for a project with a timestamp for "now".
+/// 
+/// # Arguments
+/// 
+/// - `project`: The name of the project to start the entry for.
+/// 
+/// # Returns
+/// 
+/// - Returns a DataFrame with the new entry, including a unique ID, start time,
+///  end time (empty for now), and the project name.
+/// 
+/// # Errors
+/// 
+/// - Returns an error if the DataFrame cannot be created.
+/// 
+/// # Example
+/// 
+/// ```rust
+/// use watrs::start::start;
+/// let start_entry = start("watrs".to_string());
+/// assert_eq!(start_entry.shape(), (1, 4));
+/// ```
+pub fn start(project: String) -> DataFrame {
+    let id: Uuid = Uuid::new_v4();
     df!(
         "id" => [id.to_string()],
         "start" => [common::timestamp()],
         "end" => [String::new()],
-        "project" => [project],
-    )
-    // TODO: Replace with actual error handling.
-    .unwrap()
+        "project" => [project]
+    ).expect("Can't create the DataFrame. There many be something wrong with the `project` string.")
 }
+
+// Unit test for the start function
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_start() {
+        let project: String = "test_project".to_string();
+        let df: DataFrame = start(project);
+        assert_eq!(df.shape(), (1, 4));
+        let expected_prj: DataFrame = df.select(["project"]).unwrap().head(Some(1));
+        let actual_prj: DataFrame = df!("project" => ["test_project"]).unwrap();
+        assert_eq!(expected_prj, actual_prj);
+    }
+  }

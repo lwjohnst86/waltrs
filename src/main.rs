@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
-mod start;
-mod common;
+// use watrs::{write, start, common, read};
+use watrs::{write, start, common};
 
 /// A Rust-based implementation of the Watson CLI.
 ///
@@ -41,7 +41,8 @@ fn main() {
             // - if no project, use previous project/tags
             //let start_entry = start(project.to_string());
             //println!("{}", start_entry);
-            start::start(project);
+            let df = start::start(project.to_string());
+            write::write_timesheet(df, common::timesheet_path());
         }
     }
 }

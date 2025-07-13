@@ -9,3 +9,7 @@ clap = { version = "4.5.37", features = ["derive"] }
 dirs = "6.0.0"
 polars = { version = "0.48.1", features = ["json"] }
 uuid = { version = "1.17.0", features = ["v4"] }
+
+[dev-dependencies]
+mdbook = "0.4.51"
+regex = "1.11.1"
