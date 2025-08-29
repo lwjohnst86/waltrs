@@ -13,12 +13,16 @@ serve-book:
 lint:
   # Install via `cargo install typos`
   typos
-  cargo clippy
+  cargo clippy -- \
+    -W clippy::pedantic \
+    -W clippy::nursery \
+    -W clippy::unwarped_used
   cargo check
+  cargo fmt --check
 
 # Format the code and fix issues.
 format:
-  cargo fmt --all -- --check
+  cargo fmt
   cargo clippy --fix
   cargo fix
 
