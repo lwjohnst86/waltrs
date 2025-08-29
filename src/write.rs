@@ -1,20 +1,20 @@
+use polars::prelude::*;
 use std::fs::File;
 use std::path::PathBuf;
-use polars::prelude::*;
 
 /// Writes the timesheet DataFrame to the timesheet JSON file.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// - `df`: The DataFrame containing the timesheet data.
-/// 
+///
 /// # Returns
-/// 
+///
 /// - Returns the DataFrame that was written to the file, so has the
 /// side effect of writing the DataFrame to the file.
-/// 
+///
 /// # Panics
-/// 
+///
 /// - If the file cannot be created or written to, or if the DataFrame
 /// cannot be written to the file.
 ///
@@ -23,9 +23,9 @@ pub fn write_timesheet(mut df: DataFrame, path: PathBuf) -> DataFrame {
     // If the file does not exist, it will be created. But, some operating
     // systems may not create the folders to the file, so there may be an error
     // for that.
-    let output_file: File =
-        File::create(path)
-        .expect("Unable to create clock file, you may need to create the directory to the file first.");
+    let output_file: File = File::create(path).expect(
+        "Unable to create clock file, you may need to create the directory to the file first.",
+    );
 
     // Need to initialise a new writer struct to make the connection
     // to the file.
@@ -42,4 +42,3 @@ pub fn write_timesheet(mut df: DataFrame, path: PathBuf) -> DataFrame {
 
     df
 }
-

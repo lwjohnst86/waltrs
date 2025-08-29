@@ -1,25 +1,25 @@
+use crate::common;
 use polars::prelude::*;
 use uuid::Uuid;
-use crate::common;
 
 //fn start(project: &String, tags: [&String]) -> DataFrame {
 /// Starts a new entry for a project with a timestamp for "now".
-/// 
+///
 /// # Arguments
-/// 
+///
 /// - `project`: The name of the project to start the entry for.
-/// 
+///
 /// # Returns
-/// 
+///
 /// - Returns a DataFrame with the new entry, including a unique ID, start time,
 ///  end time (empty for now), and the project name.
-/// 
+///
 /// # Errors
-/// 
+///
 /// - Returns an error if the DataFrame cannot be created.
-/// 
+///
 /// # Example
-/// 
+///
 /// ```rust
 /// use waltrs::start::start;
 /// let start_entry = start("waltrs".to_string());
@@ -32,7 +32,8 @@ pub fn start(project: String) -> DataFrame {
         "start" => [common::timestamp()],
         "end" => [String::new()],
         "project" => [project]
-    ).expect("Can't create the DataFrame. There many be something wrong with the `project` string.")
+    )
+    .expect("Can't create the DataFrame. There many be something wrong with the `project` string.")
 }
 
 // Unit test for the start function
@@ -48,4 +49,4 @@ mod tests {
         let actual_prj: DataFrame = df!("project" => ["test_project"]).unwrap();
         assert_eq!(expected_prj, actual_prj);
     }
-  }
+}

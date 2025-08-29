@@ -1,18 +1,18 @@
-use dirs::home_dir;
 use chrono::{DateTime, Utc};
+use dirs::home_dir;
 use std::time::SystemTime;
 
 /// Creates a timestamp of now.
-/// 
+///
 /// This creates a timestamp of the current date and time in RFC 3339 format, with
 /// UTC timezone as default. It is in the format `YYYY-MM-DDTHH:MM:SSZ`.
-/// 
+///
 /// # Returns
-/// 
+///
 /// - Returns a string representing the current timestamp in RFC 3339 format.
-/// 
+///
 /// # Example
-/// 
+///
 /// ```rust
 /// use waltrs::common::timestamp;
 /// let ts = timestamp();
@@ -48,4 +48,4 @@ mod tests {
         let re = Regex::new(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z").unwrap();
         assert!(re.is_match(&ts));
     }
-  }
+}

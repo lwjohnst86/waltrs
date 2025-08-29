@@ -36,7 +36,8 @@ follow a few principles to guide the design of it:
 
     It will not add a new entry if the timesheet file can't be
     parsed/read, if there are duplicate `id` values, or if there are
-    `start` entries later than the `stop` entries.
+    `start` entries later than the `stop` entries (`stop` is earlier than
+    `start`).
 
 -   `stop`: Stops the current timer. Adds a timestamp to the `stop`
     value in the timesheet file with an entry that has an empty `stop`
@@ -131,9 +132,9 @@ much more difficult to read into other analysis tools.
 ### Commands
 
 Some commands in Watson I almost never used or always misunderstood
-their action/how to use them, often having to review the documentation
-multiple time to (re)learn it (e.g. `report` vs `aggregate`). I decided
-to drop or heavily modify/merge many commands:
+their action/how to use them, where I often had to review the documentation
+multiple time just to use and (re)learn it (e.g. `report` vs `aggregate`). I
+decided to drop or heavily modify/merge many commands:
 
 -   Dropped: `restart`, `sync`, `help` (that's built into the Rust CLI),
     `merge`, `frames`, `add`

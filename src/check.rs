@@ -10,8 +10,6 @@ pub fn check_unique_id(df: &DataFrame) -> Result<&DataFrame, PolarsError> {
     let check_answer = id_series.unique();
     match id_series.is_unique() {
         true => Ok(df),
-        false => Err(PolarsError::ComputeError(
-            "ID is not unique".to_string(),
-        )),
+        false => Err(PolarsError::ComputeError("ID is not unique".to_string())),
     }
 }

@@ -1,21 +1,21 @@
 // - check if timesheet file exists
 // - check if timesheet file can be read/parsed
+use polars::prelude::*;
 use std::fs::File;
 use std::path::PathBuf;
-use polars::prelude::*;
 
 /// Reads the timesheet DataFrame from the timesheet JSON file.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// - `path`: The path to the timesheet JSON file.
-/// 
+///
 /// # Returns
-/// 
+///
 /// - Returns a DataFrame containing the timesheet data.
-/// 
+///
 /// # Panics
-/// 
+///
 /// - If the file does not exist or cannot be opened, or if the DataFrame
 /// cannot be read from the file.
 pub fn read_timesheet(path: PathBuf) -> DataFrame {
