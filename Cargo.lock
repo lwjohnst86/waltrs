@@ -4111,6 +4111,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "waltrs"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "clap",
+ "dirs",
+ "mdbook",
+ "polars",
+ "regex",
+ "uuid",
+]
+
+[[package]]
 name = "want"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4244,19 +4257,6 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
-]
-
-[[package]]
-name = "watrs"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "clap",
- "dirs",
- "mdbook",
- "polars",
- "regex",
- "uuid",
 ]
 
 [[package]]

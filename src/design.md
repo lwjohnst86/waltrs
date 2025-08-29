@@ -1,7 +1,7 @@
 # Design
 
 This document outlines the design principles and interface for the
-`watrs` time tracker, as well as some differences from the original
+`waltrs` time tracker, as well as some differences from the original
 Watson. This document is mainly a way to help keep me focused on what to
 actually implement and when I will know what "done" looks like.
 
@@ -78,13 +78,13 @@ follow a few principles to guide the design of it:
     Lists the entries for the current day, including the entry that is
     currently running.
 
--   `WATRS_TIMESHEET_PATH`: Environment variable to set the location of
-    the timesheet. If not set, it defaults to `~/.watrs/timesheet.json`.
+-   `WALTRS_TIMESHEET_PATH`: Environment variable to set the location of
+    the timesheet. If not set, it defaults to `~/.waltrs/timesheet.json`.
 
 ## Data
 
 Data is stored in a JSON file, found in the file provided by
-`WATRS_TIMESHEET_PATH`. All entries have fields with keys for `id`,
+`WALTRS_TIMESHEET_PATH`. All entries have fields with keys for `id`,
 `start`, `stop`, `project`, and `tags`. The `id` is a unique identifier
 for the entry, generated using an UUID and is used to ensure an
 identifiable entry for analyses. The `start` and `stop` fields are in

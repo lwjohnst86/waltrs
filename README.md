@@ -1,6 +1,6 @@
-# watrs: A time tracker built in Rust
+# waltrs: A time tracker built in Rust
 
-`watrs` is a Rust-based implementation of the
+`waltrs` is a Rust-based implementation of the
 [Watson](https://github.com/jazzband/Watson) CLI tool, which is written
 in Python. Unfortunately, Watson hasn't been maintained for many years
 and there are many open issues and pull requests that have not been
@@ -26,5 +26,5 @@ For now, the only way to install it is a development version on GitHub
 with `cargo`:
 
 ``` bash
-cargo install --git https://github.com/lwjohnst86/watrs
+cargo install --git https://github.com/lwjohnst86/waltrs
 ```

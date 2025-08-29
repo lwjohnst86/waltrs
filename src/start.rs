@@ -21,8 +21,8 @@ use crate::common;
 /// # Example
 /// 
 /// ```rust
-/// use watrs::start::start;
-/// let start_entry = start("watrs".to_string());
+/// use waltrs::start::start;
+/// let start_entry = start("waltrs".to_string());
 /// assert_eq!(start_entry.shape(), (1, 4));
 /// ```
 pub fn start(project: String) -> DataFrame {

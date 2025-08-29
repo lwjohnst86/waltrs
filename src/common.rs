@@ -14,7 +14,7 @@ use std::time::SystemTime;
 /// # Example
 /// 
 /// ```rust
-/// use watrs::common::timestamp;
+/// use waltrs::common::timestamp;
 /// let ts = timestamp();
 /// println!("Current timestamp: {}", ts);
 /// assert!(ts.starts_with("202"));
@@ -33,7 +33,7 @@ pub fn timesheet_path() -> std::path::PathBuf {
     // You can change this to any other path as needed.
     // For example, you might want to store it in a different directory.
 
-    home_dir().unwrap().join(".watrs/timesheet.json")
+    home_dir().unwrap().join(".waltrs/timesheet.json")
 }
 
 // Unit test for checking that the timestamp function outputs the expected format
