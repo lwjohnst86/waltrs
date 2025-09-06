@@ -10,13 +10,10 @@ use clap::{Args, Parser, Subcommand};
 // In this case, it would hold all the parameters and options that the user
 // can pass to the CLI. It is a structj
 
-/// A Rust-based implementation of the Watson CLI.
-///
-/// This is mainly a way for me to learn Rust, while also improving the
-/// [Watson](https://github.com/jazzband/Watson) time tracking CLI that
-/// is written in Python.
+/// Track your time on the CLI with Waltrs, a Rust-based implementation that is
+/// inspired by the Watson CLI (https://github.com/jazzband/Watson)
 #[derive(Parser)]
-#[command(author, version, about)]
+#[command(author, version)]
 struct Cli {
     // This is the first argument that the user can provide when running the CLI.
     // It uses the `#[command(subcommand)]` attribute to indicate that this field
@@ -38,7 +35,7 @@ struct Cli {
 // trait for the `Commands` enum.
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Starts the timer for a project and optionally with tags.
+    /// Starts the timer for a project and optionally with tags
     ///
     /// Creates a new entry in the timesheet file with an empty `stop` field. If
     /// a timer is already running for a different project, it will stop the
@@ -60,7 +57,7 @@ enum Commands {
         #[arg(short, long)]
         tags: Option<Vec<String>>,
     },
-    /// Stops the current timer.
+    /// Stops the current timer
     ///
     /// Adds a timestamp to the `stop` value in the timesheet file with an entry
     /// that has an empty `stop` value. It will only stop and add the timestamp
@@ -70,7 +67,7 @@ enum Commands {
     ///
     /// It has the same constraints as `start` for when it won't work.
     Stop,
-    /// Opens the timesheet file so you can edit it.
+    /// Opens the timesheet file so you can edit it
     ///
     /// Opens the timesheet file in the your editor (e.g. `vim`) for you to
     /// edit directly yourself. Use this to fix a mistake in an entry, remove an
@@ -82,7 +79,7 @@ enum Commands {
     /// If you edit the file, it will only save if it passes the same
     /// constraints as the `start` command.
     Edit,
-    /// Get some basic statistics about your projects and time usage.
+    /// Get some basic statistics about your projects and time usage
     ///
     /// This command contains several subcommands that provide basic
     /// statistics for various aspects of the timesheet data.
@@ -93,16 +90,16 @@ enum Commands {
 // This contains the subcommands for the `stats` command, e.g. `waltrs stats project`
 #[derive(Args, Debug)]
 struct StatsArgs {
-    /// Shows statistics about your projects and time usage.
+    /// Shows statistics about your projects and time usage
     #[arg(name = "type", required = true, value_parser = ["projects", "tags"])]
     stat_type: String,
-    /// The unit of time to show the stats for.
+    /// The unit of time to show the stats for
     #[arg(short, long, default_value = "week", value_parser = ["day", "week", "month", "year", "all"])]
     unit: String,
-    /// The number of units to show the stats for, e.g. 10 weeks.
+    /// The number of units to show the stats for, e.g. 10 weeks
     #[arg(short, long, default_value_t = 1)]
     number_of_units: u8,
-    /// Whether to include tags in the stats output (only for `projects` type).
+    /// Whether to include tags in the stats output (only for `projects` type)
     #[arg(short, long, default_value_t = false)]
     include_tags: bool,
 }
