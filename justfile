@@ -41,14 +41,6 @@ format:
 # Run tests and check the documentation.
 test: test-src test-docs
 
-# Run the tests in the `src/` or `tests/` directories.
-test-src:
-  cargo test
-  
-# Run tests on or in the documentation.
-test-docs:
-  mdbook test
-
 # Run all build recipes.
 build: build-docs build-package
 
@@ -60,3 +52,30 @@ build-docs:
 # Build the package.
 build-package:
   cargo build
+
+# Run the tests in the `src/` or `tests/` directories.
+test-src:
+  cargo test
+  
+# Run tests on or in the documentation.
+test-docs:
+  mdbook test
+
+# Run the CLI commands, just for the help.
+test-cli-help:
+  cargo run -- --help
+  cargo run -- start --help
+  cargo run -- stop --help
+  cargo run -- edit --help
+  cargo run -- stats --help
+  cargo run -- today --help
+
+# Run the CLI commands to see if they work.
+test-cli:
+  cargo run -- start test_project --tags tag1,tag2
+  cargo run -- stop
+  cargo run -- edit
+  cargo run -- stats projects
+  cargo run -- stats projects --unit week --number-of-units 2 --include-tags
+  cargo run -- stats tags --unit month --number-of-units 1
+  cargo run -- today
