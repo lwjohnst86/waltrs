@@ -1,6 +1,6 @@
-use clap::{Parser, Subcommand};
-mod common;
-mod start;
+use clap::{Args, Parser, Subcommand};
+// mod common;
+// mod start;
 
 // Structs are data structures that can hold multiple custom values
 // or data types.
@@ -35,7 +35,7 @@ struct Cli {
 // For example, if you use `Start`, you can't also use `Stop`.
 //
 // Use the `derive(Subcommand)` attribute to automatically connect the
-//  trait for the `Commands` enum.
+// trait for the `Commands` enum.
 #[derive(Subcommand, Debug)]
 enum Commands {
     /// Starts the timer for a project and optionally with tags.
@@ -53,30 +53,74 @@ enum Commands {
     Start {
         /// The project you are starting the clock for. If none is given,
         /// it will use the last project you worked on.
+        #[arg(required = true)]
         project: String,
-        // /// Optional tags to add to the timesheet entry. Defaults to an
-        // /// empty array if none tag is given.
-        // tags: array of strings?
+        /// Optional tags to add to the timesheet entry. Defaults to an
+        /// empty array if no tag is given.
+        #[arg(short, long)]
+        tags: Option<Vec<String>>,
     },
-    // /// Stops the current
-    // Stop,
-    // /// Opens the timesheet file so you can edit it.
-    // Edit,
+    /// Stops the current timer.
+    ///
+    /// Adds a timestamp to the `stop` value in the timesheet file with an entry
+    /// that has an empty `stop` value. It will only stop and add the timestamp
+    /// if there is a timer running (the most recent `start` timestamp without a
+    /// `stop` timestamp). Can't stop if the current `start` entry is in the
+    /// future (e.g. if the person incorrectly edited the file).
+    ///
+    /// It has the same constraints as `start` for when it won't work.
+    Stop,
+    /// Opens the timesheet file so you can edit it.
+    ///
+    /// Opens the timesheet file in the your editor (e.g. `vim`) for you to
+    /// edit directly yourself. Use this to fix a mistake in an entry, remove an
+    /// entry, fix a merge conflict, or cancel the currently running entry.
+    /// Since this will "simply" open the file in the default editor, going to
+    /// the necessary entry can be done by searching for the timestamp, project
+    /// or tag, or going to the end of the file for the most recent entry.
+    ///
+    /// If you edit the file, it will only save if it passes the same
+    /// constraints as the `start` command.
+    Edit,
+    /// Get some basic statistics about your projects and time usage.
+    ///
+    /// This command contains several subcommands that provide basic
+    /// statistics for various aspects of the timesheet data.
+    Stats(StatsArgs),
+    Today,
+}
+
+// This contains the subcommands for the `stats` command, e.g. `waltrs stats project`
+#[derive(Args, Debug)]
+struct StatsArgs {
+    /// Shows statistics about your projects and time usage.
+    #[arg(name = "type", required = true, value_parser = ["projects", "tags"])]
+    stat_type: String,
+    /// The unit of time to show the stats for.
+    #[arg(short, long, default_value = "week", value_parser = ["day", "week", "month", "year", "all"])]
+    unit: String,
+    /// The number of units to show the stats for, e.g. 10 weeks.
+    #[arg(short, long, default_value_t = 1)]
+    number_of_units: u8,
+    /// Whether to include tags in the stats output (only for `projects` type).
+    #[arg(short, long, default_value_t = false)]
+    include_tags: bool,
 }
 
 fn main() {
-    let cli = Cli::parse();
+    let args = Cli::parse();
+    println!("{:?}", args.command);
 
     // You can check for the existence of subcommands, and if found use their
     // matches just as you would the top level cmd
-    match &cli.command {
-        Commands::Start { project } => {
-            // - if no project, run stop on current project, but if no current project, return error (which will be handled by stop)
+    // match &cli.command {
+    //     Commands::Start { project } => {
+    //         // - if no project, run stop on current project, but if no current project, return error (which will be handled by stop)
 
-            // - if no project, use previous project/tags
-            //let start_entry = start(project.to_string());
-            //println!("{}", start_entry);
-            start::start(project);
-        }
-    }
+    //         // - if no project, use previous project/tags
+    //         //let start_entry = start(project.to_string());
+    //         //println!("{}", start_entry);
+    //         start::start(project);
+    //     }
+    // }
 }
