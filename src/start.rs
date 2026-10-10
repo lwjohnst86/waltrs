@@ -1,40 +1,48 @@
-// use crate::common;
+use crate::common;
 // use polars::prelude::*;
-// use uuid::Uuid;
+use uuid::Uuid;
 
-// //fn start(project: &String, tags: [&String]) -> DataFrame {
-// /// Starts a new entry for a project with a timestamp for "now".
-// ///
-// /// # Arguments
-// ///
-// /// - `project`: The name of the project to start the entry for.
-// ///
-// /// # Returns
-// ///
-// /// - Returns a DataFrame with the new entry, including a unique ID, start time,
-// ///  end time (empty for now), and the project name.
-// ///
-// /// # Errors
-// ///
-// /// - Returns an error if the DataFrame cannot be created.
-// ///
-// /// # Example
-// ///
-// /// ```rust
-// /// use waltrs::start::start;
-// /// let start_entry = start("waltrs".to_string());
-// /// assert_eq!(start_entry.shape(), (1, 4));
-// /// ```
-// pub fn start(project: String) -> DataFrame {
-//     let id: Uuid = Uuid::new_v4();
-//     df!(
-//         "id" => [id.to_string()],
-//         "start" => [common::timestamp()],
-//         "end" => [String::new()],
-//         "project" => [project]
-//     )
-//     .expect("Can't create the DataFrame. There many be something wrong with the `project` string.")
-// }
+pub struct TimeEntry {
+    pub id: &String,
+    pub start: String,
+    pub stop: Option<String>,
+    pub project: String,
+    pub tags: Option<Vec<String>>,
+}
+
+/// Starts a new entry for a project with a timestamp for "now".
+///
+/// # Arguments
+///
+/// - `project`: The name of the project to start the entry for.
+/// - `tags`: An optional vector of tags to attach to the time entry.
+///
+/// # Returns
+///
+/// - Returns a DataFrame with the new entry, including a unique ID, start time,
+/// end time (empty for now), and the project name.
+///
+/// # Example
+///
+/// ```rust
+/// use waltrs::start::start;
+/// let start_entry = start("waltrs".to_string());
+/// assert_eq!(start_entry.shape(), (1, 4));
+/// ```
+pub fn start(project: String, tags: Option<Vec<String>>) -> TimeEntry {
+    let tags: Option<Vec<String>> = match tags {
+        Some(tags) => Some(tags),
+        None => None,
+    };
+    let start_entry: TimeEntry = TimeEntry {
+        id: Uuid::new_v4().to_string(),
+        start: common::timestamp(),
+        stop: None,
+        project,
+        tags: tags,
+    };
+    start_entry
+}
 
 // // Unit test for the start function
 // #[cfg(test)]
